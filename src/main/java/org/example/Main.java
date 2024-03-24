@@ -15,12 +15,12 @@ public class Main {
         System.out.println(fr_cached.doubleValue());
         fr.setNum(80);
         System.out.println(fr.doubleValue());
-        System.out.println(fr.doubleValue());
-        System.out.println(fr_cached.doubleValue());
-        System.out.println(fr_cached.doubleValue());
-        fr.setDenum(8);
-        System.out.println(fr_cached.doubleValue());
-        System.out.println(fr_cached.doubleValue());
+        Fractionable fr_2 = (Fractionable)fr.getProxy();
+        System.out.println(fr_2.doubleValue());
+        System.out.println(fr_2.doubleValue());
+        fr_2.setDenum(8);
+        System.out.println(fr_2.doubleValue());
+        System.out.println(fr_2.doubleValue());
         fr_cached.setNum(40);
         System.out.println(fr_cached.doubleValue());
         System.out.println(fr_cached.doubleValue());

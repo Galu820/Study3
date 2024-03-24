@@ -3,6 +3,7 @@ package org.example;
         import java.lang.reflect.InvocationHandler;
         import java.lang.reflect.Method;
         import java.util.HashMap;
+        import java.util.WeakHashMap;
 
 public class FractionableInvHandler implements InvocationHandler
 {
@@ -10,10 +11,10 @@ public class FractionableInvHandler implements InvocationHandler
 
   FractionableInvHandler(Object obj){
         this.obj = obj;
-        this.caches = new HashMap<>();
+        this.cache = new HashMap<>();
     }
     private Object cachedValue;
-    private HashMap<String, Object> caches;
+    private HashMap<String, Object> cache;
     boolean hasMutatorAnn = false;
     boolean hasCacheAnn = false;
     @Override
@@ -30,23 +31,26 @@ public class FractionableInvHandler implements InvocationHandler
         }
 
         if (hasMutatorAnn) {
-            caches.clear();
+            //cache.clear();
             //cachedValue = method.invoke(obj, args);
             //caches.put(m.getName(), cachedValue);
             System.out.println("Not cashed value from mutator "+m.getName());
+            System.out.println(cache.toString());
             return method.invoke(obj, args);
         }
         else {
             if (hasCacheAnn) {
                 //System.out.println("!!! "+caches.get(m.getName()));
-                if (!caches.containsKey(m.getName())) {
+                if (!cache.containsKey(m.getName())) {
                     System.out.println("Not cached value from "+m.getName()+": ");
                     cachedValue = method.invoke(obj, args);
-                    caches.put(m.getName(), cachedValue);
+                    cache.remove(m.getName());
+                    cache.put(m.getName(), cachedValue);
                     return cachedValue;
                 } else {
                     System.out.println("Cached value from "+m.getName()+": ");
-                    return caches.get(m.getName());
+                    System.out.println(cache.toString());
+                    return cache.get(m.getName());
                 }
             } else return method.invoke(obj, args);
         }

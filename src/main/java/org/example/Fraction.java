@@ -28,7 +28,7 @@ public class Fraction implements Fractionable {
     }
     @Override
     @Cache
-    public synchronized double doubleValue() {
+        public synchronized double doubleValue() {
         //System.out.println("invoke double value");
         return (double) num/denum;
     }
